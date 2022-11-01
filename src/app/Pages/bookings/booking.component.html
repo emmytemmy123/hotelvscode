@@ -1,0 +1,120 @@
+ 
+
+<div class="grid">
+
+    <div class="col-12 md:col-6 lg:col-4 " >
+        <app-auto-gallery></app-auto-gallery>
+    </div>
+
+
+    <div class="col-12 md:col-6 lg:col-8 bg-blue-200  " >
+
+    <div class="wrapper">
+
+            <article class="main" >
+                
+                <div class="card ">
+                    <br><br>
+                    <p style="color:rgb(45, 185, 92); font-size: x-large;" class="flex justify-content-center">  If you want to enjoy paradize on earth.</p>
+                      <p style="color:rgb(45, 185, 92); font-size: x-large;" class="flex justify-content-center"> book a room right away.</p>
+                        <br>
+
+                    <div class="flex justify-content-center flex-wrap card-container"  >
+                        
+                            <form role="form" [formGroup]="form" (ngSubmit)="saveCustomer()"  >
+                              
+                              <br>
+                                <div class="p-field p-col-12 p-md-4" class="form-group" >
+                                    <span class="p-float-label" >
+                                      <input type="text" id="name" pInputText class="form-control" style="width: 200px;" formControlName="name" required autofocus/>
+                                      <label for="name">Fullname</label>
+                                    </span>
+                                </div>
+                                <br>
+                        
+                                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                                    <span class="p-float-label">
+                                      <input type="text" id="email" pInputText  class="form-control" style="width: 200px;" formControlName="email"   required autofocus />
+                                      <label for="email">Enter your Email</label>
+                                    </span>
+                                  </div>
+                                  <br>
+                        
+                        
+                                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                                    <span class="p-float-label">
+                                      <input type="text" id="address" pInputText class="form-control" style="width: 200px;" formControlName="address"   required autofocus    />
+                                      <label for="address">Address</label>
+                                    </span>
+                                  </div>
+                                  <br>
+
+                                  <div class="p-field p-col-12 p-md-4">
+                                    <span class="flex p-float-label" >
+                                      <p-dropdown            
+                                       style="width: 400px;"
+                                       inputId="cascadeSelect"                                                                
+                                        [autoDisplayFirst]="false"
+                                        [options]="roomCategory"
+                                        optionLabel="roomCategory"                                       
+                                      ></p-dropdown>
+                                      <label for="roomCategory" >RoomCategory</label>
+                                    </span>
+                                  </div>
+                                  <br>
+                                  
+                                  <div class="p-field p-col-12 p-md-4" >
+                                    <span class="p-float-label">
+                                      <p-cascadeSelect
+                                       style="width: 400px;"
+                                        inputId="cascadeSelect"
+                                        [options]="roomCategory"
+                                        optionLabel="roomCategory"
+                                        optionGroupLabel="roomNumber"
+                                        [optionGroupChildren]="['roomCategory', 'roomNumber']"
+                                      ></p-cascadeSelect>
+                                      <label for="roomSelect">RoomNumber</label>
+                                    </span>
+                                  </div>
+                                  <br>
+
+                                  <div class="p-field p-col-12 p-md-4">
+                                    <span class="p-float-label">
+                                      <p-calendar inputId="calendar" style="width: 400px;"></p-calendar>
+                                      <label for="calendar" style="width: 400px;">CheckIn Date</label>
+                                    </span>
+                                  </div>
+                                  <br>
+
+                                   <div class="p-field p-col-12 p-md-4" style="width: 400px;">
+                                    <span class="p-float-label">
+                                      <p-calendar inputId="calendar" style="width: 400px;"></p-calendar>
+                                      <label for="calendar">CheckOut Date</label>
+                                    </span>
+                                  </div>
+                        
+                                  <br><br>
+                                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                                    <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"   (click)="saveCustomer()"></button>
+                                
+
+                                </form>
+                
+                
+                        </div>
+                    </div>
+                
+            
+                             
+            
+            </article>
+            
+
+
+    </div>
+
+    </div>
+
+
+</div>
+

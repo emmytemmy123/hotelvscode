@@ -1,0 +1,28 @@
+
+<div class="scalein animation-duration-1000 animation-iteration-1">
+
+<div class="text-center">
+    <h2 class="text-5xl text-cyan-500 hover:text-cyan-700 font-italic mb-2">Testimonials</h2>
+</div>
+<br><br><br>
+
+<p-carousel [value]="customer" styleClass="custom-carousel" [numVisible]="3" [numScroll]="1" [circular]="true" [autoplayInterval]="3000" [responsiveOptions]="responsiveOptions">
+   
+    <ng-template let-customer pTemplate="item">
+
+        <div class="product-item">
+            <div class="product-item-content">
+                <div class="p-mb-0">
+                    <h4 class="p-mb-0 mt-0">Olawale John</h4>
+                </div>
+                <div>
+                    <span class="text-700 text-1xl line-height-3 ml-0 md:ml-2" style="max-width:650px;">The evident of relaxation and accomodation with
+                         excellent security is usually our determination. We are endored with eloquent and stability Services which engineered our achievement.</span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+</p-carousel>
+
+</div>

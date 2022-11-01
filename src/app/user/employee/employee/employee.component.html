@@ -1,0 +1,167 @@
+
+
+<div class="content-section implementation">
+    <p-toast></p-toast>
+
+    <div class="card">
+        <p-toolbar styleClass="mb-4">
+
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Add New Customer" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEmployees(employee, uuid)" [disabled]="!deleteSelectedEmployees || !selectedEmployees.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+            </ng-template>
+
+        </p-toolbar>
+
+        <p-table #dt [value]="employees" [rows]="10" [paginator]="true" [globalFilterFields]="['firstname','lastname','email','phone','gender','username']" 
+                 responsiveLayout="scroll" [(selection)]="selectedEmployees" [rowHover]="true" dataKey="uuid"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0">Manage Employees Information</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"  placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="firstname">FirstName <p-sortIcon field="firstname"></p-sortIcon></th>
+                    <th pSortableColumn="lastname">LastName <p-sortIcon field="lastname"></p-sortIcon></th>
+                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                    <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
+                    <th pSortableColumn="gender">Gender <p-sortIcon field="gender"></p-sortIcon></th>
+                    <th pSortableColumn="designation">Designation <p-sortIcon field="designation"></p-sortIcon></th>
+                    <th pSortableColumn="dataCreated">DateCreated <p-sortIcon field="dateCreated"></p-sortIcon></th>
+                    <th pSortableColumn="lastModified">DateModified <p-sortIcon field="lastModified"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-employee>
+                <tr [pEditableRow]="employee">
+                    <td>
+                        <p-tableCheckbox [value]="employees"></p-tableCheckbox>
+                    </td>
+
+                    <td>{{employee.name}}</td>
+                    <td>{{employee.email}}</td>
+                    <td>{{employee.phone}}</td>
+                    <td>{{employee.gender}}</td>
+                    <td>{{employee.designation}}</td>
+                    <td>{{employee.dateCreated}}</td>
+                    <td>{{employee.lastModified}}</td>
+
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEmployees(employee)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEmployees(employee, uuid)"></button>
+                    </td>
+
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    In total there are {{employees ? employees.length : 0 }} products.
+                </div>
+            </ng-template>
+
+        </p-table>
+    </div>
+
+    <p-dialog [(visible)]="employeeDialog" [style]="{width: '500px'}" header="Customer Details" [modal]="true" styleClass="p-fluid">
+
+        <ng-template pTemplate="content">
+
+            <form role="form" [formGroup]="form" (ngSubmit)="saveEmployees()">
+                <br>
+
+                <div class="p-field p-col-12 p-md-4" class="form-group" >
+                    <span class="p-float-label">
+                      <input type="text" id="firstname" pInputText class="form-control" formControlName="firstname" required autofocus/>
+                      <label for="firstname">Firstname</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.firstname">Firstname is required.</small>
+                </div>
+                <br>
+
+                
+                <div class="p-field p-col-12 p-md-4" class="form-group" >
+                    <span class="p-float-label">
+                      <input type="text" id="lastname" pInputText class="form-control" formControlName="lastname" required autofocus/>
+                      <label for="lastname">Lastname</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.lastname">Lastname is required.</small>
+                </div>
+                <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="email" pInputText  class="form-control" formControlName="email"   required autofocus />
+                      <label for="email">Enter your Email</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.email">Email is required.</small>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="phone" pInputText class="form-control" formControlName="phone"  required autofocus   />
+                      <label for="phone">Phone</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.phone">Phone is required.</small>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="address" pInputText class="form-control" formControlName="address"   required autofocus    />
+                      <label for="address">Address</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.address">Address is required.</small>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="designation" pInputText class="form-control" formControlName="designation"  required autofocus  />
+                      <label for="designation">Nin</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.designation">Nin is required.</small>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="username" pInputText class="form-control" formControlName="username" required autofocus  />
+                      <label for="username">Username</label>
+                    </span>
+                    <small class="p-invalid" *ngIf="submitted && !employee.username">Username is required.</small>
+                  </div>
+                  <br>    
+        
+                </form>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"   (click)="saveEmployees()"></button>
+        </ng-template>
+
+    </p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+    
+</div>

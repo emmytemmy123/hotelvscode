@@ -1,0 +1,177 @@
+
+
+<div class="content-section implementation">
+    <p-toast></p-toast>
+
+    <div class="card">
+        <p-toolbar styleClass="mb-4">
+
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="Add New Customer" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedCustomers(customer, uuid)" [disabled]="!selectedCustomers || !selectedCustomers.length"></button>
+            </ng-template>
+
+            <ng-template pTemplate="right">
+                <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>
+            </ng-template>
+
+        </p-toolbar>
+
+        <p-table #dt [value]="customers" [rows]="10" [paginator]="true" [globalFilterFields]="['name','email','phone','username']" 
+                 responsiveLayout="scroll" [(selection)]="selectedCustomers" [rowHover]="true" dataKey="uuid"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+
+            <ng-template pTemplate="caption">
+                <div class="flex align-items-center justify-content-between">
+                    <h5 class="m-0">Manage Customers Information</h5>
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text"  placeholder="Search..." />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                    <th pSortableColumn="phone">Phone <p-sortIcon field="phone"></p-sortIcon></th>
+                    <th pSortableColumn="nin">Nin <p-sortIcon field="nin"></p-sortIcon></th>
+                    <th pSortableColumn="username">Username <p-sortIcon field="username"></p-sortIcon></th>
+                    <th pSortableColumn="dataCreated">DateCreated <p-sortIcon field="dateCreated"></p-sortIcon></th>
+                    <th pSortableColumn="lastModified">DateModified <p-sortIcon field="lastModified"></p-sortIcon></th>
+                    <th></th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-customer>
+                <tr [pEditableRow]="customer">
+                    <td>
+                        <p-tableCheckbox [value]="customers"></p-tableCheckbox>
+                    </td>
+
+                    <td>{{customer.name}}</td>
+                    <td>{{customer.email}}</td>
+                    <td>{{customer.phone}}</td>
+                    <td>{{customer.nin}}</td>
+                    <td>{{customer.username}}</td>
+                    <td>{{customer.dateCreated}}</td>
+                    <td>{{customer.lastModified}}</td>
+
+                    <td>
+                        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editCustomers(customer)"></button>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteCustomers(customer, uuid)"></button>
+                    </td>
+
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="summary">
+                <div class="flex align-items-center justify-content-between">
+                    In total there are {{customers ? customers.length : 0 }} products.
+                </div>
+            </ng-template>
+
+        </p-table>
+    </div>
+
+    <p-dialog [(visible)]="customerDialog" [style]="{width: '500px'}" header="Customer Details" [modal]="true" styleClass="p-fluid">
+
+        <ng-template pTemplate="content">
+
+            <form role="form" [formGroup]="form" (ngSubmit)="saveCustomer()">
+              <br>
+                <div class="p-field p-col-12 p-md-4" class="form-group" >
+                    <span class="p-float-label" >
+                      <input type="text" id="name" pInputText formControlName="name" name="name" required autofocus />
+                      <label for="name">Fullname</label>
+                    </span>
+                </div>
+                <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group" >
+                    <span class="p-float-label">
+                      <input type="text" id="email" pInputText   formControlName="email" name="email" required autofocus/>
+                      <label for="email">Enter your Email</label>
+                    </span>
+                  </div>
+                  <br> 
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="phone" pInputText  formControlName="phone" pattern="^\d{11}$" required autofocus   />
+                      <label for="phone">Phone</label>
+                    </span>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="address" pInputText  formControlName="address" required autofocus  />
+                      <label for="address">Address</label>
+                    </span>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="nin" pInputText  formControlName="nin" required autofocus  />
+                      <label for="nin">Nin</label>
+                    </span>
+                  </div>
+                  <br>
+        
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input type="text" id="username" pInputText  formControlName="username" required autofocus  />
+                      <label for="username">Username</label>
+                    </span>
+                  </div>
+                  <br>   
+                  
+                  <div class="p-field p-col-12 p-md-4" class="form-group">
+                    <span class="p-float-label">
+                      <input  inputId="password" pInputText  formControlName="password" required autofocus />
+                      <label for="password">Password</label>
+                    </span>
+                  </div>
+                  <br>
+
+                  <p-fileUpload name="photo[]" url="http://localhost:8181/USERS/customer/add"  accept="image/*" >
+                  <ng-template pTemplate="content">
+                      <ul *ngIf="uploadedFiles.length">
+                          <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                      </ul>
+                  </ng-template>
+                  </p-fileUpload>
+
+                  <p-fileUpload mode="basic" accept="image/png, image/jpeg" [maxFileSize]="1000000" label="Import" chooseLabel="Import"   class="mr-2 inline-block"></p-fileUpload>
+
+                  <div class="text-center">
+                    <input class="form-control" type="file" 
+                            (change)="onChange($event)">
+                  
+                    <button (click)="onUpload()" 
+                        class="btn btn-success">
+                        Upload
+                    </button>
+                </div>
+        
+                </form>
+
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+            <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveCustomer()"></button>
+        </ng-template>
+
+    </p-dialog>
+
+    <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+    
+</div>
