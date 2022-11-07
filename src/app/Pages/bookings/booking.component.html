@@ -7,21 +7,20 @@
     </div>
 
 
-    <div class="col-12 md:col-6 lg:col-8 bg-blue-200  " >
+    <div class="col-12 md:col-6 lg:col-8 bg-blue-200" >
 
     <div class="wrapper">
 
-            <article class="main" >
+            <article class="main"  >
                 
-                <div class="card ">
                     <br><br>
-                    <p style="color:rgb(45, 185, 92); font-size: x-large;" class="flex justify-content-center">  If you want to enjoy paradize on earth.</p>
+                    <p style="color:rgb(45, 185, 92); font-size: x-large;" class="flex justify-content-center ">  If you want to enjoy paradize on earth.</p>
                       <p style="color:rgb(45, 185, 92); font-size: x-large;" class="flex justify-content-center"> book a room right away.</p>
                         <br>
 
-                    <div class="flex justify-content-center flex-wrap card-container"  >
+                    <div class="flex justify-content-center card-container" >
                         
-                            <form role="form" [formGroup]="form" (ngSubmit)="saveCustomer()"  >
+                            <form role="form" [formGroup]="form" (ngSubmit)="saveCustomer()"   >
                               
                               <br>
                                 <div class="p-field p-col-12 p-md-4" class="form-group" >
@@ -50,13 +49,13 @@
                                   <br>
 
                                   <div class="p-field p-col-12 p-md-4">
-                                    <span class="flex p-float-label" >
+                                    <span class="flex p-float-label"  >
                                       <p-dropdown            
-                                       style="width: 400px;"
                                        inputId="cascadeSelect"                                                                
                                         [autoDisplayFirst]="false"
                                         [options]="roomCategory"
-                                        optionLabel="roomCategory"                                       
+                                        optionLabel="roomCategory" 
+                                        style="width: 600px;"                                      
                                       ></p-dropdown>
                                       <label for="roomCategory" >RoomCategory</label>
                                     </span>
@@ -102,7 +101,7 @@
                 
                 
                         </div>
-                    </div>
+                
                 
             
                              

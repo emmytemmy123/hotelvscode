@@ -1,3 +1,4 @@
+import { HttpClient} from '@angular/common/http';
 import { UploadService } from './../../upload.service';
 import { Customer } from '../../Model/users/customer';
 import { Component, OnInit } from '@angular/core';
@@ -42,7 +43,9 @@ export class Table2Component implements OnInit {
 
     file!: File; // Variable to store file
   
+    image!: string | ArrayBuffer | null;
 
+    selectedFile!: File;
     
         form = new FormGroup({
         name: new FormControl('', Validators.required),
@@ -57,10 +60,12 @@ export class Table2Component implements OnInit {
         lastModified: new FormControl('', Validators.required),
 
       });
-  
 
-    
-    constructor(private customerService: CustomerService, private messageService: MessageService,
+    observe: any;
+    fileInput: any;
+
+
+    constructor(private customerService: CustomerService, private messageService: MessageService, private http: HttpClient,
                  private confirmationService: ConfirmationService, private uploadService: UploadService) { }
 
     ngOnInit() {
@@ -89,6 +94,7 @@ export class Table2Component implements OnInit {
         this.file = event.target.files[0];
     }
 
+
     onUpload() {
         this.loading = !this.loading;
         console.log(this.file);
@@ -105,10 +111,35 @@ export class Table2Component implements OnInit {
         );
     }
 
+    onFileSelect(){
+
+    }
+
+
+    onUpload5(event: { files: any; }) {
+        for(let file of event.files) {
+            this.uploadedFiles.push(file);
+        }
+
+        this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+    }
+
+    onFileSelected(event: any){
+    this.selectedFile = <File>event.target.files[0];
+
+    }
+
+    onUpload2(){
+        const fd = new FormData();
+        fd.append('photo', this.selectedFile, this.selectedFile.name);
+        this.http.post('http://localhost:8181/USERS/customer/add', fd).subscribe(res =>{
+            console.log(res);
+        });
+    }
+
       saveCustomer() {
         this.submitted = true;
-        console.log(this.form.value);
-
+    
         let customer : Customer = {
             name: this.form.controls['name'].value!,
             email: this.form.controls['email'].value!,
@@ -134,6 +165,7 @@ export class Table2Component implements OnInit {
         });
         this.customerService.deleteCustomer(uuid).subscribe( result => {
             console.log(result);
+            this.getCustomers();
           })
     }
 
@@ -144,15 +176,21 @@ export class Table2Component implements OnInit {
     }
 
 
-    deleteCustomers(customer: Customer, uuid: String) {
+    deleteCustomers( uuid: String) {
         this.confirmationService.confirm({
             message: 'Are you sure you want to delete the selected customer?',
             header: 'Confirm',
             icon: 'pi pi-exclamation-triangle',
-          
         });
+        
         this.customerService.deleteCustomer(uuid).subscribe( result => {
+            if(result.code=='200'){
+                this.customers =result["data"]
+              }else{
+                this.customers =[]
+              }
             console.log(result);
+            this.getCustomers();
           })
     }
 

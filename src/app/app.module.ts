@@ -93,6 +93,7 @@ import { FeaturesComponent } from './Pages/features/features/features.component'
 import { ContactComponent } from './Pages/contact/contact/contact.component';
 import { EmployeeComponent } from './user/employee/employee/employee.component';
 import { UploadComponent } from './upload/upload.component';
+import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 
 
@@ -148,7 +149,8 @@ import { UploadComponent } from './upload/upload.component';
     FeaturesComponent,
     ContactComponent,
     EmployeeComponent,
-    UploadComponent
+    UploadComponent,
+    ImageUploadComponent
     
     
   ],

@@ -13,7 +13,7 @@ export class CustomerService {
 
 private baseURL = "http://localhost:8181/USERS/customer/list";
 private baseURL1 = "http://localhost:8181/USERS/customer/add";
-private baseURL2 = "http://localhost:8181/USERS/customer/customerDelete";
+private baseURL2 = "http://localhost:8181/USERS/customer/customerDelete/{id}";
 private baseURL3 = "http://localhost:8181/USERS/image/add";
 
 
@@ -41,9 +41,6 @@ private baseURL3 = "http://localhost:8181/USERS/image/add";
     return this.http.delete<ApiResponse>(`${this.baseURL2}/${uuid}`);
   }
  
-  saveImage(customers: Customer): Observable<ApiResponse>{
-    return this.http.post<ApiResponse>(`${this.baseURL1}`, customers);
-  }
 
 
 
